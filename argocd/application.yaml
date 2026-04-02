@@ -15,7 +15,7 @@ spec:
   project: default
 
   source:
-    repoURL: git@github.com:Adroiteck-PS/keyvoro-config.git
+    repoURL: git@github.com:Adroiteck-PS/app-keyvoro-config.git
     targetRevision: main
     path: overlays/production
     kustomize: {}
