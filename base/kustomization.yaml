@@ -7,6 +7,4 @@ resources:
   - route.yaml
   - networkpolicy.yaml
   - rbac.yaml
-  - migration-job.yaml
-  - keyvoro-changelogs-cm.yaml
   - vault.yaml
