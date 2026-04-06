@@ -156,3 +156,15 @@ spec:
           text: "{{ .Secrets.keycloak_client_id }}"
         keycloak-client-secret:
           text: "{{ .Secrets.keycloak_client_secret }}"
+        anthropic-api-key:
+          text: "{{ .Secrets.anthropic_api_key }}"
+        resend-api-key:
+          text: "{{ .Secrets.resend_api_key }}"
+        resend-from-address:
+          text: "{{ .Secrets.resend_from_address }}"
+        twilio-account-sid:
+          text: "{{ .Secrets.twilio_account_sid }}"
+        twilio-auth-token:
+          text: "{{ .Secrets.twilio_auth_token }}"
+        twilio-from-number:
+          text: "{{ .Secrets.twilio_from_number }}"

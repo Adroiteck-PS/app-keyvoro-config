@@ -137,6 +137,39 @@ spec:
                 secretKeyRef:
                   name: keyvoro-auth
                   key: keycloak-client-secret
+            # AI — Anthropic
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: anthropic-api-key
+            # Email — Resend
+            - name: RESEND_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: resend-api-key
+            - name: RESEND_FROM_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: resend-from-address
+            # SMS — Twilio
+            - name: TWILIO_ACCOUNT_SID
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: twilio-account-sid
+            - name: TWILIO_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: twilio-auth-token
+            - name: TWILIO_FROM_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: twilio-from-number
             # Node environment
             - name: NODE_ENV
               value: "production"
