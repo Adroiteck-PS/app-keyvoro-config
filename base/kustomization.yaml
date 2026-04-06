@@ -8,3 +8,5 @@ resources:
   - networkpolicy.yaml
   - rbac.yaml
   - vault.yaml
+  - keyvoro-changelogs-cm.yaml
+  - migration-job.yaml

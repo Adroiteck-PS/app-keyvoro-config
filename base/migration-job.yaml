@@ -2,14 +2,14 @@
 # Runs database migrations against db01.aps.kim using Liquibase.
 #
 # Usage:
-#   This Job is NOT auto-synced by ArgoCD (hook annotation).
-#   It runs as a PreSync hook — migrations complete before the app deploys.
+#   Runs as an ArgoCD PreSync hook — migrations complete before the app deploys.
+#   ArgoCD deletes the previous Job before creating a new one (BeforeHookCreation).
 #
 # To run manually:
 #   oc delete job keyvoro-migrate -n keyvoro --ignore-not-found
-#   oc apply -f okd/migration-job.yaml
+#   oc apply -f migration-job.yaml
 #
-# The changelog files are baked into the app container image at /app/liquibase/
+# The changelog files are mounted from the keyvoro-liquibase-changelogs ConfigMap.
 ---
 apiVersion: batch/v1
 kind: Job
@@ -20,7 +20,7 @@ metadata:
     app: keyvoro
     app.kubernetes.io/component: migration
   annotations:
-    argocd.argoproj.io/hook: Skip
+    argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   backoffLimit: 3
@@ -95,3 +95,27 @@ spec:
                 path: changelogs/008-integrations-and-audit.xml
               - key: 009-better-auth-tables.xml
                 path: changelogs/009-better-auth-tables.xml
+              - key: 010-loan-tables.xml
+                path: changelogs/010-loan-tables.xml
+              - key: 011-ai-score-columns.xml
+                path: changelogs/011-ai-score-columns.xml
+              - key: 012-automation-tables.xml
+                path: changelogs/012-automation-tables.xml
+              - key: 013-document-tables.xml
+                path: changelogs/013-document-tables.xml
+              - key: 014-notification-tables.xml
+                path: changelogs/014-notification-tables.xml
+              - key: 015-referral-tables.xml
+                path: changelogs/015-referral-tables.xml
+              - key: 016-portal-and-pricing-tables.xml
+                path: changelogs/016-portal-and-pricing-tables.xml
+              - key: 017-lead-assignment.xml
+                path: changelogs/017-lead-assignment.xml
+              - key: 018-open-house-tables.xml
+                path: changelogs/018-open-house-tables.xml
+              - key: 018-seed-data.xml
+                path: changelogs/018-seed-data.xml
+              - key: 019-integration-los-columns.xml
+                path: changelogs/019-integration-los-columns.xml
+              - key: 020-lead-metadata-column.xml
+                path: changelogs/020-lead-metadata-column.xml
