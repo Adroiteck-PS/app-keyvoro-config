@@ -1,0 +1,78 @@
+# Cloudflare Tunnel for keyvoro.com / www.keyvoro.com
+# Tunnel ID: 32cee07a-2f87-409b-9d4c-c28045a4c0e1
+# Routes: keyvoro.com, www.keyvoro.com → keyvoro service (port 3000)
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflared-token
+  namespace: keyvoro
+type: Opaque
+stringData:
+  TUNNEL_TOKEN: "eyJhIjoiNjYyMTcwMGRmYjcxMjMzODcxN2RjZWJiNmEyNDIxMGYiLCJ0IjoiMzJjZWUwN2EtMmY4Ny00MDliLTlkNGMtYzI4MDQ1YTRjMGUxIiwicyI6Ik56aHJXVGx5V2tGaVlVTkVhVTR6YlVVd1JWVnpZMmxOVUZSU1ZsUlJXR1V5UVVaVlJtTlZaRVZrUVQwPSJ9"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-tunnel
+  namespace: keyvoro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-tunnel
+  template:
+    metadata:
+      labels:
+        app: cloudflare-tunnel
+    spec:
+      serviceAccountName: keyvoro-sa
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          args:
+            - tunnel
+            - --no-autoupdate
+            - run
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflared-token
+                  key: TUNNEL_TOKEN
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "25m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

@@ -10,3 +10,4 @@ resources:
   - vault.yaml
   - keyvoro-changelogs-cm.yaml
   - migration-job.yaml
+  - cloudflare-tunnel.yaml
