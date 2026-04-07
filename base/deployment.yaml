@@ -115,7 +115,7 @@ spec:
                 secretKeyRef:
                   name: keyvoro-infra
                   key: redis-url
-            # Auth — Better Auth + Keycloak OIDC
+            # Auth — Better Auth (Direct SSO)
             - name: BETTER_AUTH_SECRET
               valueFrom:
                 secretKeyRef:
@@ -125,18 +125,26 @@ spec:
               value: "https://keyvoro.apps.ocp.aps.kim"
             - name: NEXT_PUBLIC_APP_URL
               value: "https://keyvoro.apps.ocp.aps.kim"
-            - name: KEYCLOAK_ISSUER_URL
-              value: "https://keycloak.aps.kim/realms/keyvoro"
-            - name: KEYCLOAK_CLIENT_ID
+            - name: GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: keyvoro-auth
-                  key: keycloak-client-id
-            - name: KEYCLOAK_CLIENT_SECRET
+                  key: google-client-id
+            - name: GOOGLE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: keyvoro-auth
-                  key: keycloak-client-secret
+                  key: google-client-secret
+            - name: MICROSOFT_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: microsoft-client-id
+            - name: MICROSOFT_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: keyvoro-auth
+                  key: microsoft-client-secret
             # AI — Anthropic
             - name: ANTHROPIC_API_KEY
               valueFrom:
